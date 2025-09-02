@@ -7,7 +7,7 @@ include(CheckCXXCompilerFlag)
 include(CheckCXXSourceCompiles)
 
 
-macro(myproject_supports_sanitizers)
+macro(ProjectManagement_supports_sanitizers)
   if((CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*" OR CMAKE_CXX_COMPILER_ID MATCHES ".*GNU.*") AND NOT WIN32)
 
     message(STATUS "Sanity checking UndefinedBehaviorSanitizer, it should be supported on this platform")
@@ -54,183 +54,183 @@ macro(myproject_supports_sanitizers)
   endif()
 endmacro()
 
-macro(myproject_setup_options)
-  option(myproject_ENABLE_HARDENING "Enable hardening" ON)
-  option(myproject_ENABLE_COVERAGE "Enable coverage reporting" OFF)
+macro(ProjectManagement_setup_options)
+  option(ProjectManagement_ENABLE_HARDENING "Enable hardening" ON)
+  option(ProjectManagement_ENABLE_COVERAGE "Enable coverage reporting" OFF)
   cmake_dependent_option(
-    myproject_ENABLE_GLOBAL_HARDENING
+    ProjectManagement_ENABLE_GLOBAL_HARDENING
     "Attempt to push hardening options to built dependencies"
     ON
-    myproject_ENABLE_HARDENING
+    ProjectManagement_ENABLE_HARDENING
     OFF)
 
-  myproject_supports_sanitizers()
+  ProjectManagement_supports_sanitizers()
 
-  if(NOT PROJECT_IS_TOP_LEVEL OR myproject_PACKAGING_MAINTAINER_MODE)
-    option(myproject_ENABLE_IPO "Enable IPO/LTO" OFF)
-    option(myproject_WARNINGS_AS_ERRORS "Treat Warnings As Errors" OFF)
-    option(myproject_ENABLE_USER_LINKER "Enable user-selected linker" OFF)
-    option(myproject_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_UNDEFINED "Enable undefined sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
-    option(myproject_ENABLE_UNITY_BUILD "Enable unity builds" OFF)
-    option(myproject_ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
-    option(myproject_ENABLE_CPPCHECK "Enable cpp-check analysis" OFF)
-    option(myproject_ENABLE_PCH "Enable precompiled headers" OFF)
-    option(myproject_ENABLE_CACHE "Enable ccache" OFF)
+  if(NOT PROJECT_IS_TOP_LEVEL OR ProjectManagement_PACKAGING_MAINTAINER_MODE)
+    option(ProjectManagement_ENABLE_IPO "Enable IPO/LTO" OFF)
+    option(ProjectManagement_WARNINGS_AS_ERRORS "Treat Warnings As Errors" OFF)
+    option(ProjectManagement_ENABLE_USER_LINKER "Enable user-selected linker" OFF)
+    option(ProjectManagement_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" OFF)
+    option(ProjectManagement_ENABLE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
+    option(ProjectManagement_ENABLE_SANITIZER_UNDEFINED "Enable undefined sanitizer" OFF)
+    option(ProjectManagement_ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
+    option(ProjectManagement_ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
+    option(ProjectManagement_ENABLE_UNITY_BUILD "Enable unity builds" OFF)
+    option(ProjectManagement_ENABLE_CLANG_TIDY "Enable clang-tidy" OFF)
+    option(ProjectManagement_ENABLE_CPPCHECK "Enable cpp-check analysis" OFF)
+    option(ProjectManagement_ENABLE_PCH "Enable precompiled headers" OFF)
+    option(ProjectManagement_ENABLE_CACHE "Enable ccache" OFF)
   else()
-    option(myproject_ENABLE_IPO "Enable IPO/LTO" ON)
-    option(myproject_WARNINGS_AS_ERRORS "Treat Warnings As Errors" ON)
-    option(myproject_ENABLE_USER_LINKER "Enable user-selected linker" OFF)
-    option(myproject_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" ${SUPPORTS_ASAN})
-    option(myproject_ENABLE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_UNDEFINED "Enable undefined sanitizer" ${SUPPORTS_UBSAN})
-    option(myproject_ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
-    option(myproject_ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
-    option(myproject_ENABLE_UNITY_BUILD "Enable unity builds" OFF)
-    option(myproject_ENABLE_CLANG_TIDY "Enable clang-tidy" ON)
-    option(myproject_ENABLE_CPPCHECK "Enable cpp-check analysis" ON)
-    option(myproject_ENABLE_PCH "Enable precompiled headers" OFF)
-    option(myproject_ENABLE_CACHE "Enable ccache" ON)
+    option(ProjectManagement_ENABLE_IPO "Enable IPO/LTO" ON)
+    option(ProjectManagement_WARNINGS_AS_ERRORS "Treat Warnings As Errors" ON)
+    option(ProjectManagement_ENABLE_USER_LINKER "Enable user-selected linker" OFF)
+    option(ProjectManagement_ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" ${SUPPORTS_ASAN})
+    option(ProjectManagement_ENABLE_SANITIZER_LEAK "Enable leak sanitizer" OFF)
+    option(ProjectManagement_ENABLE_SANITIZER_UNDEFINED "Enable undefined sanitizer" ${SUPPORTS_UBSAN})
+    option(ProjectManagement_ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
+    option(ProjectManagement_ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
+    option(ProjectManagement_ENABLE_UNITY_BUILD "Enable unity builds" OFF)
+    option(ProjectManagement_ENABLE_CLANG_TIDY "Enable clang-tidy" ON)
+    option(ProjectManagement_ENABLE_CPPCHECK "Enable cpp-check analysis" ON)
+    option(ProjectManagement_ENABLE_PCH "Enable precompiled headers" OFF)
+    option(ProjectManagement_ENABLE_CACHE "Enable ccache" ON)
   endif()
 
   if(NOT PROJECT_IS_TOP_LEVEL)
     mark_as_advanced(
-      myproject_ENABLE_IPO
-      myproject_WARNINGS_AS_ERRORS
-      myproject_ENABLE_USER_LINKER
-      myproject_ENABLE_SANITIZER_ADDRESS
-      myproject_ENABLE_SANITIZER_LEAK
-      myproject_ENABLE_SANITIZER_UNDEFINED
-      myproject_ENABLE_SANITIZER_THREAD
-      myproject_ENABLE_SANITIZER_MEMORY
-      myproject_ENABLE_UNITY_BUILD
-      myproject_ENABLE_CLANG_TIDY
-      myproject_ENABLE_CPPCHECK
-      myproject_ENABLE_COVERAGE
-      myproject_ENABLE_PCH
-      myproject_ENABLE_CACHE)
+      ProjectManagement_ENABLE_IPO
+      ProjectManagement_WARNINGS_AS_ERRORS
+      ProjectManagement_ENABLE_USER_LINKER
+      ProjectManagement_ENABLE_SANITIZER_ADDRESS
+      ProjectManagement_ENABLE_SANITIZER_LEAK
+      ProjectManagement_ENABLE_SANITIZER_UNDEFINED
+      ProjectManagement_ENABLE_SANITIZER_THREAD
+      ProjectManagement_ENABLE_SANITIZER_MEMORY
+      ProjectManagement_ENABLE_UNITY_BUILD
+      ProjectManagement_ENABLE_CLANG_TIDY
+      ProjectManagement_ENABLE_CPPCHECK
+      ProjectManagement_ENABLE_COVERAGE
+      ProjectManagement_ENABLE_PCH
+      ProjectManagement_ENABLE_CACHE)
   endif()
 
-  myproject_check_libfuzzer_support(LIBFUZZER_SUPPORTED)
-  if(LIBFUZZER_SUPPORTED AND (myproject_ENABLE_SANITIZER_ADDRESS OR myproject_ENABLE_SANITIZER_THREAD OR myproject_ENABLE_SANITIZER_UNDEFINED))
+  ProjectManagement_check_libfuzzer_support(LIBFUZZER_SUPPORTED)
+  if(LIBFUZZER_SUPPORTED AND (ProjectManagement_ENABLE_SANITIZER_ADDRESS OR ProjectManagement_ENABLE_SANITIZER_THREAD OR ProjectManagement_ENABLE_SANITIZER_UNDEFINED))
     set(DEFAULT_FUZZER ON)
   else()
     set(DEFAULT_FUZZER OFF)
   endif()
 
-  option(myproject_BUILD_FUZZ_TESTS "Enable fuzz testing executable" ${DEFAULT_FUZZER})
+  option(ProjectManagement_BUILD_FUZZ_TESTS "Enable fuzz testing executable" ${DEFAULT_FUZZER})
 
 endmacro()
 
-macro(myproject_global_options)
-  if(myproject_ENABLE_IPO)
+macro(ProjectManagement_global_options)
+  if(ProjectManagement_ENABLE_IPO)
     include(cmake/InterproceduralOptimization.cmake)
-    myproject_enable_ipo()
+    ProjectManagement_enable_ipo()
   endif()
 
-  myproject_supports_sanitizers()
+  ProjectManagement_supports_sanitizers()
 
-  if(myproject_ENABLE_HARDENING AND myproject_ENABLE_GLOBAL_HARDENING)
+  if(ProjectManagement_ENABLE_HARDENING AND ProjectManagement_ENABLE_GLOBAL_HARDENING)
     include(cmake/Hardening.cmake)
     if(NOT SUPPORTS_UBSAN 
-       OR myproject_ENABLE_SANITIZER_UNDEFINED
-       OR myproject_ENABLE_SANITIZER_ADDRESS
-       OR myproject_ENABLE_SANITIZER_THREAD
-       OR myproject_ENABLE_SANITIZER_LEAK)
+       OR ProjectManagement_ENABLE_SANITIZER_UNDEFINED
+       OR ProjectManagement_ENABLE_SANITIZER_ADDRESS
+       OR ProjectManagement_ENABLE_SANITIZER_THREAD
+       OR ProjectManagement_ENABLE_SANITIZER_LEAK)
       set(ENABLE_UBSAN_MINIMAL_RUNTIME FALSE)
     else()
       set(ENABLE_UBSAN_MINIMAL_RUNTIME TRUE)
     endif()
-    message("${myproject_ENABLE_HARDENING} ${ENABLE_UBSAN_MINIMAL_RUNTIME} ${myproject_ENABLE_SANITIZER_UNDEFINED}")
-    myproject_enable_hardening(myproject_options ON ${ENABLE_UBSAN_MINIMAL_RUNTIME})
+    message("${ProjectManagement_ENABLE_HARDENING} ${ENABLE_UBSAN_MINIMAL_RUNTIME} ${ProjectManagement_ENABLE_SANITIZER_UNDEFINED}")
+    ProjectManagement_enable_hardening(ProjectManagement_options ON ${ENABLE_UBSAN_MINIMAL_RUNTIME})
   endif()
 endmacro()
 
-macro(myproject_local_options)
+macro(ProjectManagement_local_options)
   if(PROJECT_IS_TOP_LEVEL)
     include(cmake/StandardProjectSettings.cmake)
   endif()
 
-  add_library(myproject_warnings INTERFACE)
-  add_library(myproject_options INTERFACE)
+  add_library(ProjectManagement_warnings INTERFACE)
+  add_library(ProjectManagement_options INTERFACE)
 
   include(cmake/CompilerWarnings.cmake)
-  myproject_set_project_warnings(
-    myproject_warnings
-    ${myproject_WARNINGS_AS_ERRORS}
+  ProjectManagement_set_project_warnings(
+    ProjectManagement_warnings
+    ${ProjectManagement_WARNINGS_AS_ERRORS}
     ""
     ""
     ""
     "")
 
-  if(myproject_ENABLE_USER_LINKER)
+  if(ProjectManagement_ENABLE_USER_LINKER)
     include(cmake/Linker.cmake)
-    myproject_configure_linker(myproject_options)
+    ProjectManagement_configure_linker(ProjectManagement_options)
   endif()
 
   include(cmake/Sanitizers.cmake)
-  myproject_enable_sanitizers(
-    myproject_options
-    ${myproject_ENABLE_SANITIZER_ADDRESS}
-    ${myproject_ENABLE_SANITIZER_LEAK}
-    ${myproject_ENABLE_SANITIZER_UNDEFINED}
-    ${myproject_ENABLE_SANITIZER_THREAD}
-    ${myproject_ENABLE_SANITIZER_MEMORY})
+  ProjectManagement_enable_sanitizers(
+    ProjectManagement_options
+    ${ProjectManagement_ENABLE_SANITIZER_ADDRESS}
+    ${ProjectManagement_ENABLE_SANITIZER_LEAK}
+    ${ProjectManagement_ENABLE_SANITIZER_UNDEFINED}
+    ${ProjectManagement_ENABLE_SANITIZER_THREAD}
+    ${ProjectManagement_ENABLE_SANITIZER_MEMORY})
 
-  set_target_properties(myproject_options PROPERTIES UNITY_BUILD ${myproject_ENABLE_UNITY_BUILD})
+  set_target_properties(ProjectManagement_options PROPERTIES UNITY_BUILD ${ProjectManagement_ENABLE_UNITY_BUILD})
 
-  if(myproject_ENABLE_PCH)
+  if(ProjectManagement_ENABLE_PCH)
     target_precompile_headers(
-      myproject_options
+      ProjectManagement_options
       INTERFACE
       <vector>
       <string>
       <utility>)
   endif()
 
-  if(myproject_ENABLE_CACHE)
+  if(ProjectManagement_ENABLE_CACHE)
     include(cmake/Cache.cmake)
-    myproject_enable_cache()
+    ProjectManagement_enable_cache()
   endif()
 
   include(cmake/StaticAnalyzers.cmake)
-  if(myproject_ENABLE_CLANG_TIDY)
-    myproject_enable_clang_tidy(myproject_options ${myproject_WARNINGS_AS_ERRORS})
+  if(ProjectManagement_ENABLE_CLANG_TIDY)
+    ProjectManagement_enable_clang_tidy(ProjectManagement_options ${ProjectManagement_WARNINGS_AS_ERRORS})
   endif()
 
-  if(myproject_ENABLE_CPPCHECK)
-    myproject_enable_cppcheck(${myproject_WARNINGS_AS_ERRORS} "" # override cppcheck options
+  if(ProjectManagement_ENABLE_CPPCHECK)
+    ProjectManagement_enable_cppcheck(${ProjectManagement_WARNINGS_AS_ERRORS} "" # override cppcheck options
     )
   endif()
 
-  if(myproject_ENABLE_COVERAGE)
+  if(ProjectManagement_ENABLE_COVERAGE)
     include(cmake/Tests.cmake)
-    myproject_enable_coverage(myproject_options)
+    ProjectManagement_enable_coverage(ProjectManagement_options)
   endif()
 
-  if(myproject_WARNINGS_AS_ERRORS)
+  if(ProjectManagement_WARNINGS_AS_ERRORS)
     check_cxx_compiler_flag("-Wl,--fatal-warnings" LINKER_FATAL_WARNINGS)
     if(LINKER_FATAL_WARNINGS)
       # This is not working consistently, so disabling for now
-      # target_link_options(myproject_options INTERFACE -Wl,--fatal-warnings)
+      # target_link_options(ProjectManagement_options INTERFACE -Wl,--fatal-warnings)
     endif()
   endif()
 
-  if(myproject_ENABLE_HARDENING AND NOT myproject_ENABLE_GLOBAL_HARDENING)
+  if(ProjectManagement_ENABLE_HARDENING AND NOT ProjectManagement_ENABLE_GLOBAL_HARDENING)
     include(cmake/Hardening.cmake)
     if(NOT SUPPORTS_UBSAN 
-       OR myproject_ENABLE_SANITIZER_UNDEFINED
-       OR myproject_ENABLE_SANITIZER_ADDRESS
-       OR myproject_ENABLE_SANITIZER_THREAD
-       OR myproject_ENABLE_SANITIZER_LEAK)
+       OR ProjectManagement_ENABLE_SANITIZER_UNDEFINED
+       OR ProjectManagement_ENABLE_SANITIZER_ADDRESS
+       OR ProjectManagement_ENABLE_SANITIZER_THREAD
+       OR ProjectManagement_ENABLE_SANITIZER_LEAK)
       set(ENABLE_UBSAN_MINIMAL_RUNTIME FALSE)
     else()
       set(ENABLE_UBSAN_MINIMAL_RUNTIME TRUE)
     endif()
-    myproject_enable_hardening(myproject_options OFF ${ENABLE_UBSAN_MINIMAL_RUNTIME})
+    ProjectManagement_enable_hardening(ProjectManagement_options OFF ${ENABLE_UBSAN_MINIMAL_RUNTIME})
   endif()
 
 endmacro()
